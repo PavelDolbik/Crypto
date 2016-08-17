@@ -99,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/decrypted_string"
+                android:layout_marginTop="5dp"
                 />
 
             <TextView
