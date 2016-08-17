@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Crypto</string>
+    <string name="enter_text">Enter text</string>
+    <string name="password">Password</string>
+    <string name="encrypted_string">Encrypted string:</string>
+    <string name="decrypted_string">Decrypted string:</string>
+    <string name="encrypt">Encrypt</string>
+    <string name="decrypt">Decrypt</string>
+    <string name="clear">Clear</string>
+    <string name="error_encrypted">Plan text or Password can not be NULL!</string>
+    <string name="error_decrypted">Encrypted text or Password can not be NULL!</string>
+    <string name="error_password">Invalid password!</string>
+</resources>
