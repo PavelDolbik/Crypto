@@ -23,8 +23,8 @@ android {
 
 
 ext {
-    supportLibraryVersion      = '26.+'
-    moxyLibraryVersion         = '1.5.3'
+    supportLibraryVersion = '26.+'
+    moxyLibraryVersion    = '1.5.3'
 }
 
 
@@ -37,8 +37,8 @@ dependencies {
     compile "com.android.support:design:$supportLibraryVersion"
 
     //rx
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
 
     //MVP
     compile "com.arello-mobile:moxy:$moxyLibraryVersion"

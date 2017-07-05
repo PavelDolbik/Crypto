@@ -5,25 +5,27 @@ import android.text.TextUtils;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 
 @InjectViewState
 public class MyActivityPresenter extends MvpPresenter<MyActivityView> {
 
+
     private String encryptedString;
     private String password;
-    private CompositeSubscription compositeSbs;
+    private CompositeDisposable compositeDisp;
 
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        compositeSbs = new CompositeSubscription();
+        compositeDisp = new CompositeDisposable();
     }
 
 
@@ -32,22 +34,23 @@ public class MyActivityPresenter extends MvpPresenter<MyActivityView> {
             getViewState().showError(R.string.error_encrypted);
         } else {
             this.password = password;
-            compositeSbs.add(
-                    Observable
-                   .just(Crypto.encrypt(text, password))
-                   .subscribeOn(Schedulers.computation())
-                   .observeOn(AndroidSchedulers.mainThread())
-                   .subscribe(new Subscriber<String>() {
-                       @Override
-                       public void onCompleted() {}
-                       @Override
-                       public void onError(Throwable e) { e.printStackTrace(); }
-                       @Override
-                       public void onNext(String s) {
-                           encryptedString = s;
-                           getViewState().setEncryptedString(encryptedString);
-                       }
-                   }));
+            compositeDisp.add(
+                    Single.just(Crypto.encrypt(text, password))
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(new DisposableSingleObserver<String>() {
+                                @Override
+                                public void onSuccess(@NonNull String s) {
+                                    encryptedString = s;
+                                    getViewState().setEncryptedString(encryptedString);
+                                }
+
+                                @Override
+                                public void onError(@NonNull Throwable e) {
+                                    e.printStackTrace();
+                                }
+                            })
+            );
         }
     }
 
@@ -58,21 +61,22 @@ public class MyActivityPresenter extends MvpPresenter<MyActivityView> {
         } else if(!this.password.equals(password)) {
             getViewState().showError(R.string.error_password);
         } else {
-            compositeSbs.add(
-                    Observable
-                    .just(Crypto.decrypt(encryptedString, password))
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<String>() {
-                        @Override
-                        public void onCompleted() {}
-                        @Override
-                        public void onError(Throwable e) { e.printStackTrace(); }
-                        @Override
-                        public void onNext(String s) {
-                            getViewState().setDecryptedString(s);
-                        }
-                    }));
+            compositeDisp.add(
+                    Single.just(Crypto.decrypt(encryptedString, password))
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(new DisposableSingleObserver<String>() {
+                                @Override
+                                public void onSuccess(@NonNull String s) {
+                                    getViewState().setDecryptedString(s);
+                                }
+
+                                @Override
+                                public void onError(@NonNull Throwable e) {
+                                    e.printStackTrace();
+                                }
+                            })
+            );
         }
     }
 
@@ -80,16 +84,15 @@ public class MyActivityPresenter extends MvpPresenter<MyActivityView> {
     void clear() {
         encryptedString = null;
         password        = null;
-        compositeSbs.unsubscribe();
+        compositeDisp.clear();
         getViewState().clear();
     }
-
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        compositeSbs.unsubscribe();
+        compositeDisp.dispose();
     }
 
 
