@@ -17,22 +17,22 @@ public class MyActivityPresenter extends MvpPresenter<MyActivityView> {
 
     private String encryptedString;
     private String password;
-    private CompositeSubscription compositeSubscription;
+    private CompositeSubscription compositeSbs;
 
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        compositeSubscription = new CompositeSubscription();
+        compositeSbs = new CompositeSubscription();
     }
 
 
-    public void encryptedData(final String text, final String password) {
+    void encryptedData(final String text, final String password) {
         if(TextUtils.isEmpty(text) || TextUtils.isEmpty(password)) {
             getViewState().showError(R.string.error_encrypted);
         } else {
             this.password = password;
-            compositeSubscription.add(
+            compositeSbs.add(
                     Observable
                    .just(Crypto.encrypt(text, password))
                    .subscribeOn(Schedulers.computation())
@@ -52,13 +52,13 @@ public class MyActivityPresenter extends MvpPresenter<MyActivityView> {
     }
 
 
-    public void decryptedData(final String password) {
+    void decryptedData(final String password) {
         if(TextUtils.isEmpty(encryptedString) || TextUtils.isEmpty(password)) {
             getViewState().showError(R.string.error_decrypted);
         } else if(!this.password.equals(password)) {
             getViewState().showError(R.string.error_password);
         } else {
-            compositeSubscription.add(
+            compositeSbs.add(
                     Observable
                     .just(Crypto.decrypt(encryptedString, password))
                     .subscribeOn(Schedulers.computation())
@@ -77,10 +77,10 @@ public class MyActivityPresenter extends MvpPresenter<MyActivityView> {
     }
 
 
-    public void clear() {
+    void clear() {
         encryptedString = null;
         password        = null;
-        compositeSubscription.unsubscribe();
+        compositeSbs.unsubscribe();
         getViewState().clear();
     }
 
@@ -89,6 +89,8 @@ public class MyActivityPresenter extends MvpPresenter<MyActivityView> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        compositeSubscription.unsubscribe();
+        compositeSbs.unsubscribe();
     }
+
+
 }

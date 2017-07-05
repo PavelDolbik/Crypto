@@ -14,9 +14,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Created by pavel.d on 17-Aug-16.
- */
+
 public class Crypto {
 
     /** Минимальное значение рекомендуемое для PKCS#5. <br>
@@ -72,9 +70,7 @@ public class Crypto {
                     toBase64(iv),
                     DELIMITER,
                     toBase64(cipherText));
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
+        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
@@ -99,9 +95,7 @@ public class Crypto {
             cipher.init(Cipher.DECRYPT_MODE, key, ivParams);
             byte[] plaintext = cipher.doFinal(cipherBytes);
             return new String(plaintext, "UTF-8");
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
+        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }

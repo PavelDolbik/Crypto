@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 public class MainActivity extends MvpAppCompatActivity
@@ -20,9 +21,6 @@ public class MainActivity extends MvpAppCompatActivity
     private EditText password;
     private TextView encryptedText;
     private TextView decryptedText;
-    private Button   encrypt;
-    private Button   decrypt;
-    private Button   clear;
 
 
     @Override
@@ -34,9 +32,11 @@ public class MainActivity extends MvpAppCompatActivity
         password      = (EditText) findViewById(R.id.password);
         encryptedText = (TextView) findViewById(R.id.encrypted);
         decryptedText = (TextView) findViewById(R.id.decrypted);
-        encrypt       = (Button)   findViewById(R.id.button_encrypt);
-        decrypt       = (Button)   findViewById(R.id.button_decrypt);
-        clear         = (Button)   findViewById(R.id.button_clear);
+
+        Button encrypt = (Button)  findViewById(R.id.button_encrypt);
+        Button decrypt = (Button)  findViewById(R.id.button_decrypt);
+        Button clear   = (Button)  findViewById(R.id.button_clear);
+
         encrypt.setOnClickListener(this);
         decrypt.setOnClickListener(this);
         clear.setOnClickListener(this);
