@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_vertical_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_vertical_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="368dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/ine_horizontal_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="16dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/ine_horizontal_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="16dp"
+        tools:layout_editor_absoluteY="495dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+
+    <!-- Plan text -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/planInputText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/line_vertical_1"
+        app:layout_constraintTop_toTopOf="@+id/ine_horizontal_1"
+        app:layout_constraintRight_toLeftOf="@+id/line_vertical_2">
+
+        <EditText
+            android:id="@+id/planText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_text"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <!-- Encrypt/Decrypt content-->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="@id/line_vertical_1"
+        app:layout_constraintRight_toRightOf="@id/line_vertical_2"
+        app:layout_constraintTop_toBottomOf="@id/planInputText"
+        app:layout_constraintBottom_toTopOf="@+id/encrypt"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/encryptLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/encrypted_str"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
+
+            <TextView
+                android:id="@+id/encryptResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                />
+
+            <TextView
+                android:id="@+id/decryptLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/decrypted_str"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
+
+            <TextView
+                android:id="@+id/decryptResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <Button
+        android:id="@+id/encrypt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/encrypt"
+        app:layout_constraintLeft_toLeftOf="@+id/line_vertical_1"
+        app:layout_constraintBottom_toTopOf="@+id/ine_horizontal_2"
+        app:layout_constraintRight_toLeftOf="@+id/decrypt"
+        />
+
+    <Button
+        android:id="@+id/decrypt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/decrypt"
+        app:layout_constraintLeft_toRightOf="@+id/encrypt"
+        app:layout_constraintBottom_toTopOf="@+id/ine_horizontal_2"
+        app:layout_constraintRight_toLeftOf="@+id/clear"
+        />
+
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"
+        app:layout_constraintLeft_toRightOf="@+id/decrypt"
+        app:layout_constraintBottom_toTopOf="@+id/ine_horizontal_2"
+        app:layout_constraintRight_toLeftOf="@+id/line_vertical_2" />
+
+
+</android.support.constraint.ConstraintLayout>
